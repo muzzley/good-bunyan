@@ -1,0 +1,35 @@
+{
+  "name": "good-bunyan",
+  "version": "0.0.1",
+  "description": "Bunyan reporting for Good process monitor",
+  "main": "index.js",
+  "scripts": {
+    "test": "semistandard"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/muzzley/good-bunyan.git"
+  },
+  "keywords": [
+    "bunyan",
+    "good",
+    "hapi",
+    "log",
+    "logger"
+  ],
+  "author": "Francisco Dias <francisco@baiodias.com> (http://franciscodias.net/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/muzzley/good-bunyan/issues"
+  },
+  "homepage": "https://github.com/muzzley/good-bunyan",
+  "dependencies": {
+    "bunyan": "^1.4.0",
+    "good-squeeze": "^2.1.0",
+    "joi": "^6.5.0",
+    "through2": "^2.0.0"
+  },
+  "devDependencies": {
+    "semistandard": "^6.1.1"
+  }
+}
