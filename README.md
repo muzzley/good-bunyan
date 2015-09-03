@@ -10,10 +10,10 @@ good-bunyan
 Creates a new GoodBunyan object with the following arguments:
 
 - `events` - an object of key value pairs.
-	- `key` - one of the supported [good events](https://github.com/hapijs/good) indicating the hapi event to subscribe to
-	- `value` - a single string or an array of strings to filter incoming events. "\*" indicates no filtering. `null` and `undefined` are assumed to be "\*"
+  - `key` - one of the supported [good events](https://github.com/hapijs/good) indicating the hapi event to subscribe to
+  - `value` - a single string or an array of strings to filter incoming events. "\*" indicates no filtering. `null` and `undefined` are assumed to be "\*"
 - `config` - configuration object with the following available keys
-	- `logger` (required) - [bunyan](https://github.com/trentm/node-bunyan/) logger instance.
+  - `logger` (required) - [bunyan](https://github.com/trentm/node-bunyan/) logger instance.
   - `levels` - object used to override the bunyan levels of each good event type. Each key is a [good event](https://github.com/hapijs/good) (`ops`, `repsonse`, `log`, `error` and `request`), and the values must be a [bunyan level](https://github.com/trentm/node-bunyan#levels) (`trace`, `debug`, `info`, `error` or `fatal`).
   - `formatters` - object used to override the message passed to buyan. Each key is a [good event](https://github.com/hapijs/good) (`ops`, `repsonse`, `log`, `error` and `request`), and the values must be functions which take an object `data` as the argument and output, either a `string`, or an array of arguments to be passed for the bunyan log.
 
@@ -43,6 +43,7 @@ server.connection({ host: 'localhost' });
 
 var options = {
   opsInterval: 1000,
+  responsePayload: true, // enable this to log response payloads
   reporters: [{
     reporter: require('good-bunyan'),
     config: {
