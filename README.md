@@ -14,7 +14,7 @@ Creates a new GoodBunyan object with the following arguments:
   - `value` - a single string or an array of strings to filter incoming events. "\*" indicates no filtering. `null` and `undefined` are assumed to be "\*"
 - `config` - configuration object with the following available keys
   - `logger` (required) - [bunyan](https://github.com/trentm/node-bunyan/) logger instance.
-  - `levels` - object used to override the bunyan levels of each good event type. Each key is a [good event](https://github.com/hapijs/good) (`ops`, `repsonse`, `log`, `error` and `request`), and the values must be a [bunyan level](https://github.com/trentm/node-bunyan#levels) (`trace`, `debug`, `info`, `error` or `fatal`).
+  - `levels` - object used to set the default bunyan level for each good event type. Each key is a [good event](https://github.com/hapijs/good) (`ops`, `repsonse`, `log`, `error` and `request`), and the values must be a [bunyan level](https://github.com/trentm/node-bunyan#levels) (`trace`, `debug`, `info`, `error` or `fatal`). Please note that `good-bunyan` will first try to look for a valid bunyan level within the event tags (e.g. using the tag ['error', 'handler'] will result in using the bunyan 'error' level).
   - `formatters` - object used to override the message passed to buyan. Each key is a [good event](https://github.com/hapijs/good) (`ops`, `repsonse`, `log`, `error` and `request`), and the values must be functions which take an object `data` as the argument and output, either a `string`, or an array of arguments to be passed for the bunyan log.
 
 ## Good Bunyan Methods
