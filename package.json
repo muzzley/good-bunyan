@@ -32,7 +32,8 @@
   "dependencies": {
     "bunyan": "1.8.x",
     "good-squeeze": "4.0.x",
-    "hoek": "4.0.x"
+    "hoek": "4.0.x",
+    "joi": "9.0.x"
   },
   "devDependencies": {
     "eslint": "3.x"
