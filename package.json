@@ -38,6 +38,6 @@
     "eslint": "3.x"
   },
   "peerDependencies": {
-    "good": "7.x.x"
+    "good": "7.x"
   }
 }
