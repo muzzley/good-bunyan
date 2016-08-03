@@ -1,10 +1,13 @@
 {
   "name": "good-bunyan",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Bunyan reporting for Good process monitor",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "engines": {
+    "node": ">=4.0.0"
+  },
   "scripts": {
-    "test": "semistandard"
+    "test": "eslint ./lib/**/*.js"
   },
   "repository": {
     "type": "git",
@@ -18,18 +21,24 @@
     "logger"
   ],
   "author": "Francisco Dias <francisco@baiodias.com> (http://franciscodias.net/)",
+  "contributors": [
+    "StefanoMagrassi <stefano.magrassi@gmail.com>"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/muzzley/good-bunyan/issues"
   },
   "homepage": "https://github.com/muzzley/good-bunyan",
   "dependencies": {
-    "bunyan": "^1.4.0",
-    "good-squeeze": "^2.1.0",
-    "joi": "^6.5.0",
-    "through2": "^2.0.0"
+    "bunyan": "1.8.x",
+    "good-squeeze": "4.0.x",
+    "hoek": "4.0.x",
+    "joi": "9.0.x"
   },
   "devDependencies": {
-    "semistandard": "^6.1.1"
+    "eslint": "3.x"
+  },
+  "peerDependencies": {
+    "good": "7.x"
   }
 }
