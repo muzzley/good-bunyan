@@ -42,10 +42,11 @@ var server = new Hapi.Server();
 server.connection({ host: 'localhost' });
 
 var options = {
-  opsInterval: 1000,
+  opsInterval: 10000,
   responsePayload: true, // enable this to log response payloads
   reporters: [{
     reporter: require('good-bunyan'),
+    events: { error: '*', log: '*', response: '*', request: '*', ops: '*' },
     config: {
       logger: logger,
       levels: {
@@ -60,21 +61,22 @@ var options = {
   }]
 };
 
-server.register({
-  register: require('good'),
-  options: options
-}, function (err) {
-
+server.register(
+  {
+    register: require('good'),
+    options: options
+  },
+  function (err) {
     if (err) {
       console.error(err);
     }
     else {
       server.start(function () {
-
         console.info('Server started at ' + server.info.uri);
       });
     }
-});
+  }
+);
 ```
 
 ## Credits
