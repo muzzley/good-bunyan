@@ -4,7 +4,9 @@
   "description": "Bunyan reporting for Good process monitor",
   "main": "index.js",
   "scripts": {
-    "test": "semistandard"
+    "test": "lab -t 70 -va code",
+    "test-lint": "lab -t 70 -vLa code",
+    "lint": "semistandard"
   },
   "repository": {
     "type": "git",
@@ -27,9 +29,13 @@
     "bunyan": "^1.4.0",
     "good-squeeze": "^2.1.0",
     "joi": "^6.5.0",
+    "json-stringify-safe": "^5.0.1",
     "through2": "^2.0.0"
   },
   "devDependencies": {
-    "semistandard": "^6.1.1"
+    "code": "^1.5.0",
+    "hoek": "^2.16.3",
+    "lab": "^6.0.0",
+    "semistandard": "^8.0.0"
   }
 }
