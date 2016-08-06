@@ -7,7 +7,9 @@
     "node": ">=4.0.0"
   },
   "scripts": {
-    "test": "eslint ./lib/**/*.js"
+    "test": "lab -t 80 -va code",
+    "test-lint": "lab -t 80 -vLa code",
+    "lint": "eslint ./lib/**/*.js"
   },
   "repository": {
     "type": "git",
@@ -31,12 +33,15 @@
   "homepage": "https://github.com/muzzley/good-bunyan",
   "dependencies": {
     "bunyan": "1.8.x",
+    "fast-safe-stringify": "1.0.9",
     "good-squeeze": "4.0.x",
     "hoek": "4.0.x",
     "joi": "9.0.x"
   },
   "devDependencies": {
-    "eslint": "3.x"
+    "code": "3.0.2",
+    "eslint": "3.x",
+    "lab": "10.9.0"
   },
   "peerDependencies": {
     "good": "7.x"

@@ -71,9 +71,9 @@ server.register({
 });
 ```
 
-## Alert
+## Compatibility
 
-**good-bunyan** complies with `good 7.x.x` [api](https://github.com/hapijs/good/blob/master/API.md).
+`good-bunyan` complies with the `good 7.x.x` [API](https://github.com/hapijs/good/blob/master/API.md).
 
 ## Credits
 
