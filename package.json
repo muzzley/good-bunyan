@@ -8,8 +8,8 @@
   },
   "scripts": {
     "test": "lab -t 80 -va code",
-    "test-lint": "lab -t 80 -vLa code",
-    "lint": "eslint ./lib/**/*.js"
+    "test-lint": "lab -t 80 -vLa code && semistandard",
+    "lint": "semistandard"
   },
   "repository": {
     "type": "git",
@@ -40,8 +40,9 @@
   },
   "devDependencies": {
     "code": "3.0.2",
-    "eslint": "3.x",
-    "lab": "10.9.0"
+    "hoek": "4.0.2",
+    "lab": "10.9.0",
+    "semistandard": "8.0.0"
   },
   "peerDependencies": {
     "good": "7.x"
