@@ -1,14 +1,16 @@
-var Lab = require('lab');
-var Code = require('code');
-var Hoek = require('hoek');
-var logFixture = require('./fixture/logger');
+'use strict';
 
-var Streams = require('./fixture/streams');
+const Lab = require('lab');
+const Code = require('code');
+const Hoek = require('hoek');
+const logFixture = require('./fixture/logger');
 
-var GoodBunyan = require('..');
-var events = { error: '*', log: '*', response: '*', request: '*', ops: '*' };
+const Streams = require('./fixture/streams');
 
-var internals = {
+const GoodBunyan = require('..');
+const events = { error: '*', log: '*', response: '*', request: '*', ops: '*' };
+
+const internals = {
   defaults: {
     format: 'YYMMDD/HHmmss.SSS'
   }
@@ -102,290 +104,283 @@ internals.default = {
 
 // Test shortcuts
 
-var lab = exports.lab = Lab.script();
-var expect = Code.expect;
-var describe = lab.describe;
-var it = lab.it;
+const lab = exports.lab = Lab.script();
+const expect = Code.expect;
+const describe = lab.describe;
+const it = lab.it;
 
-describe('good-bunyan', function () {
-  describe('report', function () {
-    describe('response events', function () {
-      it('returns a formatted object for "response" events', { plan: 2 }, function (done) {
-        var fixture = logFixture();
-        var reporter = new GoodBunyan(events, {
+describe('good-bunyan', () => {
+  describe('report', () => {
+    describe('response events', () => {
+      it('returns a formatted object for "response" events', { plan: 7 }, (done) => {
+        const fixture = logFixture();
+        const reporter = new GoodBunyan(events, {
           logger: fixture.logger,
           levels: {
             ops: 'debug'
           }
         });
-        var event = Hoek.clone(internals.response);
-        var s = Streams.readStream(done);
+
+        const reader = new Streams.Reader();
+
+        reader.pipe(reporter);
+        reader.push(internals.response);
+        reader.push(null);
 
         fixture.outStream._write = function (ev) {
-          var logObject = JSON.parse(ev);
-          expect(logObject.query).to.be.equal('{"name":"adam"}');
-          expect(logObject.instance).to.be.equal('http://localhost:61253');
-          expect(logObject.method).to.be.equal('post');
-          expect(logObject.path).to.be.equal('/data');
-          expect(logObject.statusCode).to.be.equal(200);
-          expect(logObject.responseTime).to.be.equal('150ms');
+          const logObject = JSON.parse(ev);
+          expect(logObject.res.query).to.be.equal('{"name":"adam"}');
+          expect(logObject.res.instance).to.be.equal('http://localhost:61253');
+          expect(logObject.res.method).to.be.equal('post');
+          expect(logObject.res.path).to.be.equal('/data');
+          expect(logObject.res.statusCode).to.be.equal(200);
+          expect(logObject.res.responseTime).to.be.equal('150ms');
           expect(logObject.msg).to.be.equal('[response]');
+          done();
         };
-
-        reporter.init(s, null, function (err) {
-          expect(err).to.not.exist();
-          s.push(event);
-          s.push(null);
-        });
       });
 
-      it('returns a formatted object for "response" events without a query', { plan: 2 }, function (done) {
-        var fixture = logFixture();
-        var reporter = new GoodBunyan(events, {
+      it('returns a formatted object for "response" events without a query', { plan: 7 }, (done) => {
+        const fixture = logFixture();
+        const reporter = new GoodBunyan(events, {
           logger: fixture.logger,
           levels: {
             ops: 'debug'
           }
         });
-        var event = Hoek.clone(internals.response);
+        const event = Hoek.clone(internals.response);
         delete event.query;
-        var s = Streams.readStream(done);
+        const reader = new Streams.Reader();
+
+        reader.pipe(reporter);
+        reader.push(event);
+        reader.push(null);
 
         fixture.outStream._write = function (ev) {
-          var logObject = JSON.parse(ev);
-          expect(logObject.query).to.not.exist();
-          expect(logObject.instance).to.be.equal('http://localhost:61253');
-          expect(logObject.method).to.be.equal('post');
-          expect(logObject.path).to.be.equal('/data');
-          expect(logObject.statusCode).to.be.equal(200);
-          expect(logObject.responseTime).to.be.equal('150ms');
+          const logObject = JSON.parse(ev);
+          expect(logObject.res.query).to.not.exist();
+          expect(logObject.res.instance).to.be.equal('http://localhost:61253');
+          expect(logObject.res.method).to.be.equal('post');
+          expect(logObject.res.path).to.be.equal('/data');
+          expect(logObject.res.statusCode).to.be.equal(200);
+          expect(logObject.res.responseTime).to.be.equal('150ms');
           expect(logObject.msg).to.be.equal('[response]');
+          done();
         };
-
-        reporter.init(s, null, function (err) {
-          expect(err).to.not.exist();
-          s.push(event);
-          s.push(null);
-        });
       });
 
-      it('returns a formatted object for "response" events with "head" as method', { plan: 2 }, function (done) {
-        var fixture = logFixture();
-        var reporter = new GoodBunyan(events, {
+      it('returns a formatted object for "response" events with "head" as method', { plan: 7 }, (done) => {
+        const fixture = logFixture();
+        const reporter = new GoodBunyan(events, {
           logger: fixture.logger,
           levels: {
             ops: 'debug'
           }
         });
-        var event = Hoek.clone(internals.response);
+        const event = Hoek.clone(internals.response);
         event.method = 'head';
-        var s = Streams.readStream(done);
+        const reader = new Streams.Reader();
+
+        reader.pipe(reporter);
+        reader.push(event);
+        reader.push(null);
 
         fixture.outStream._write = function (ev) {
-          var logObject = JSON.parse(ev);
-          expect(logObject.query).to.be.equal('{"name":"adam"}');
-          expect(logObject.instance).to.be.equal('http://localhost:61253');
-          expect(logObject.method).to.be.equal('head');
-          expect(logObject.path).to.be.equal('/data');
-          expect(logObject.statusCode).to.be.equal(200);
-          expect(logObject.responseTime).to.be.equal('150ms');
+          const logObject = JSON.parse(ev);
+          expect(logObject.res.query).to.be.equal('{"name":"adam"}');
+          expect(logObject.res.instance).to.be.equal('http://localhost:61253');
+          expect(logObject.res.method).to.be.equal('head');
+          expect(logObject.res.path).to.be.equal('/data');
+          expect(logObject.res.statusCode).to.be.equal(200);
+          expect(logObject.res.responseTime).to.be.equal('150ms');
           expect(logObject.msg).to.be.equal('[response]');
+          done();
         };
-
-        reporter.init(s, null, function (err) {
-          expect(err).to.not.exist();
-          s.push(event);
-          s.push(null);
-        });
       });
 
-      it('returns a formatted object for "response" events with a circular data object', { plan: 2 }, function (done) {
-        var fixture = logFixture();
-        var reporter = new GoodBunyan(events, {
+      it('returns a formatted object for "response" events with a circular data object', { plan: 8 }, (done) => {
+        const fixture = logFixture();
+        const reporter = new GoodBunyan(events, {
           logger: fixture.logger,
           levels: {
             ops: 'debug'
           }
         });
-        var event = Hoek.clone(internals.response);
+        const event = Hoek.clone(internals.response);
         event.responsePayload = {
           x: 'y'
         };
         event.responsePayload.z = event.responsePayload;
-        var s = Streams.readStream(done);
+        const reader = new Streams.Reader();
+
+        reader.pipe(reporter);
+        reader.push(event);
+        reader.push(null);
 
         fixture.outStream._write = function (ev) {
-          var logObject = JSON.parse(ev);
-          expect(logObject.query).to.be.equal('{"name":"adam"}');
-          expect(logObject.responsePayload).to.be.equal('{"x":"y","z":"[Circular ~]"}');
-          expect(logObject.instance).to.be.equal('http://localhost:61253');
-          expect(logObject.method).to.be.equal('post');
-          expect(logObject.path).to.be.equal('/data');
-          expect(logObject.statusCode).to.be.equal(200);
-          expect(logObject.responseTime).to.be.equal('150ms');
+          const logObject = JSON.parse(ev);
+          expect(logObject.res.query).to.be.equal('{"name":"adam"}');
+          expect(logObject.res.responsePayload).to.be.equal('{"x":"y","z":"[Circular]"}');
+          expect(logObject.res.instance).to.be.equal('http://localhost:61253');
+          expect(logObject.res.method).to.be.equal('post');
+          expect(logObject.res.path).to.be.equal('/data');
+          expect(logObject.res.statusCode).to.be.equal(200);
+          expect(logObject.res.responseTime).to.be.equal('150ms');
           expect(logObject.msg).to.be.equal('[response]');
+          done();
         };
-
-        reporter.init(s, null, function (err) {
-          expect(err).to.not.exist();
-          s.push(event);
-          s.push(null);
-        });
       });
     });
 
-    describe('ops events', function () {
-      it('returns an "ops" event', { plan: 2 }, function (done) {
-        var fixture = logFixture();
-        var reporter = new GoodBunyan(events, {
+    describe('ops events', () => {
+      it('returns an "ops" event', { plan: 4 }, (done) => {
+        const fixture = logFixture();
+        const reporter = new GoodBunyan(events, {
           logger: fixture.logger,
           levels: {
             ops: 'debug'
           }
         });
-        var event = Hoek.clone(internals.ops);
-        var s = Streams.readStream();
+        const reader = new Streams.Reader();
+
+        reader.pipe(reporter);
+        reader.push(internals.ops);
+        reader.push(null);
 
         fixture.outStream._write = function (ev) {
-          var logObject = JSON.parse(ev);
+          const logObject = JSON.parse(ev);
           expect(logObject.memory).to.be.equal('29Mb');
           expect(logObject.uptime).to.be.equal('6s');
           expect(logObject.load).to.be.equal('1.650390625, 1.6162109375, 1.65234375');
           expect(logObject.msg).to.be.equal('[ops]');
           done();
         };
-
-        reporter.init(s, null, function (err) {
-          expect(err).to.not.exist();
-          s.push(event);
-          s.push(null);
-        });
       });
     });
 
-    describe('error events', function () {
-      it('returns a formatted string for "error" events', { plan: 2 }, function (done) {
-        var fixture = logFixture();
-        var reporter = new GoodBunyan(events, {
+    describe('error events', () => {
+      it('returns a formatted string for "error" events', { plan: 3 }, (done) => {
+        const fixture = logFixture();
+        const reporter = new GoodBunyan(events, {
           logger: fixture.logger,
           levels: {
             ops: 'debug'
           }
         });
-        var event = Hoek.clone(internals.error);
-        var s = Streams.readStream(done);
+        const reader = new Streams.Reader();
+
+        reader.pipe(reporter);
+        reader.push(internals.error);
+        reader.push(null);
 
         fixture.outStream._write = function (ev) {
-          var logObject = JSON.parse(ev);
+          const logObject = JSON.parse(ev);
           expect(logObject.err).to.exist();
           expect(logObject.err.message).to.be.equal('Just a simple error');
           expect(logObject.msg).to.be.equal('[error] Just a simple error');
+          done();
         };
-
-        reporter.init(s, null, function (err) {
-          expect(err).to.not.exist();
-          s.push(event);
-          s.push(null);
-        });
       });
     });
 
-    describe('request events', function () {
-      it('returns a formatted string for "request" events', { plan: 2 }, function (done) {
-        var fixture = logFixture();
-        var reporter = new GoodBunyan(events, {
+    describe('request events', () => {
+      it('returns a formatted string for "request" events', { plan: 2 }, (done) => {
+        const fixture = logFixture();
+        const reporter = new GoodBunyan(events, {
           logger: fixture.logger,
           levels: {
             ops: 'debug'
           }
         });
-        var event = Hoek.clone(internals.request);
-        var s = Streams.readStream(done);
+
+        const reader = new Streams.Reader();
+
+        reader.pipe(reporter);
+        reader.push(internals.request);
+        reader.push(null);
 
         fixture.outStream._write = function (ev) {
-          var logObject = JSON.parse(ev);
-          expect(logObject.msg).to.be.equal('you made a request [request]');
-        };
-
-        reporter.init(s, null, function (err) {
-          expect(err).to.not.exist();
-          s.push(event);
-          s.push(null);
-        });
-      });
-    });
-
-    describe('log and default events', function () {
-      it('returns a formatted string for "log" and "default" events', { plan: 2 }, function (done) {
-        var fixture = logFixture();
-        var reporter = new GoodBunyan(events, {
-          logger: fixture.logger,
-          levels: {
-            ops: 'debug'
-          }
-        });
-        var event = Hoek.clone(internals.default);
-        var s = Streams.readStream(done);
-
-        fixture.outStream._write = function (ev) {
-          var logObject = JSON.parse(ev);
-          expect(logObject.msg).to.be.equal('you made a default [request]');
-        };
-
-        reporter.init(s, null, function (err) {
-          expect(err).to.not.exist();
-          s.push(event);
-          s.push(null);
-        });
-      });
-
-      it('returns a formatted string for "default" events without data', { plan: 2 }, function (done) {
-        var fixture = logFixture();
-        var reporter = new GoodBunyan(events, {
-          logger: fixture.logger,
-          levels: {
-            ops: 'debug'
-          }
-        });
-        var event = Hoek.clone(internals.default);
-        delete event.data;
-        var s = Streams.readStream(done);
-
-        fixture.outStream._write = function (ev) {
-          var logObject = JSON.parse(ev);
-          expect(logObject.msg).to.be.equal("undefined '[request]'");
-        };
-
-        reporter.init(s, null, function (err) {
-          expect(err).to.not.exist();
-          s.push(event);
-          s.push(null);
-        });
-      });
-
-      it('returns a formatted string for "default" events with data as object', { plan: 2 }, function (done) {
-        var fixture = logFixture();
-        var reporter = new GoodBunyan(events, {
-          logger: fixture.logger,
-          levels: {
-            ops: 'debug'
-          }
-        });
-        var event = Hoek.clone(internals.default);
-        event.data = { hello: 'world' };
-        var s = Streams.readStream(done);
-
-        fixture.outStream._write = function (ev) {
-          var logObject = JSON.parse(ev);
+          const logObject = JSON.parse(ev);
+          expect(logObject.req.data).to.be.equal('you made a request');
           expect(logObject.msg).to.be.equal('[request]');
-          expect(logObject.hello).to.be.equal('world');
+          done();
         };
+      });
+    });
 
-        reporter.init(s, null, function (err) {
-          expect(err).to.not.exist();
-          s.push(event);
-          s.push(null);
+    describe('log and default events', () => {
+      it('returns a formatted string for "log" and "default" events', { plan: 2 }, (done) => {
+        const fixture = logFixture();
+        const reporter = new GoodBunyan(events, {
+          logger: fixture.logger,
+          levels: {
+            ops: 'debug'
+          }
         });
+
+        const reader = new Streams.Reader();
+
+        reader.pipe(reporter);
+        reader.push(internals.default);
+        reader.push(null);
+
+        fixture.outStream._write = function (ev) {
+          const logObject = JSON.parse(ev);
+          expect(logObject.req.data).to.be.equal('you made a default');
+          expect(logObject.msg).to.be.equal('[request]');
+          done();
+        };
+      });
+
+      it('returns a formatted string for "default" events without data', { plan: 2 }, (done) => {
+        const fixture = logFixture();
+        const reporter = new GoodBunyan(events, {
+          logger: fixture.logger,
+          levels: {
+            ops: 'debug'
+          }
+        });
+
+        const event = Hoek.clone(internals.default);
+        delete event.data;
+        const reader = new Streams.Reader();
+
+        reader.pipe(reporter);
+        reader.push(event);
+        reader.push(null);
+
+        fixture.outStream._write = function (ev) {
+          const logObject = JSON.parse(ev);
+          expect(logObject.req.data).to.be.undefined();
+          expect(logObject.msg).to.be.equal('[request]');
+          done();
+        };
+      });
+
+      it('returns a formatted string for "default" events with data as object', { plan: 3 }, (done) => {
+        const fixture = logFixture();
+        const reporter = new GoodBunyan(events, {
+          logger: fixture.logger,
+          levels: {
+            ops: 'debug'
+          }
+        });
+
+        const event = Hoek.clone(internals.default);
+        event.data = { hello: 'world' };
+        const reader = new Streams.Reader();
+
+        reader.pipe(reporter);
+        reader.push(event);
+        reader.push(null);
+
+        fixture.outStream._write = function (ev) {
+          const logObject = JSON.parse(ev);
+          expect(logObject.req.data).to.be.an.object();
+          expect(logObject.req.data).to.only.include({ hello: 'world' });
+          expect(logObject.msg).to.be.equal('[request]');
+          done();
+        };
       });
     });
   });

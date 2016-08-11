@@ -1,9 +1,11 @@
-var bunyan = require('bunyan');
-var stream = require('stream');
+'use strict';
+
+const bunyan = require('bunyan');
+const stream = require('stream');
 
 exports = module.exports = function () {
-  var writableStream = stream.Writable();
-  var logger = bunyan.createLogger({
+  const writableStream = stream.Writable();
+  const logger = bunyan.createLogger({
     name: 'good-bunyan-tests',
     level: 'trace',
     stream: writableStream

@@ -1,14 +1,23 @@
-var Stream = require('stream');
+'use strict';
 
-exports = module.exports = {};
+const Stream = require('stream');
 
-exports.readStream = function (done) {
-  var result = new Stream.Readable({ objectMode: true });
-  result._read = function () {};
-
-  if (typeof done === 'function') {
-    result.once('end', done);
+class Writer extends Stream.Writable {
+  constructor () {
+    super({ objectMode: true });
+    this.data = [];
   }
+  _write (chunk, enc, callback) {
+    this.data.push(chunk);
+    callback(null);
+  }
+}
 
-  return result;
-};
+class Reader extends Stream.Readable {
+  constructor () {
+    super({ objectMode: true });
+  }
+  _read () {}
+}
+
+module.exports = { Writer, Reader };
