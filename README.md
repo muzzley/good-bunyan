@@ -27,8 +27,9 @@ Creates a new GoodBunyan object with the following arguments:
 const Hapi = require('hapi');
 const bunyan = require('bunyan');
 
-const logger = bunyan.createLogger({ name: 'myapp' });
+const logger = bunyan.createLogger({ name: 'myapp', level: 'trace' });
 const server = new Hapi.Server();
+
 server.connection({ host: 'localhost' });
 
 const options = {
@@ -36,15 +37,15 @@ const options = {
     bunyan: [{
       module: 'good-bunyan',
       args: [
-        {ops: '*', response: '*', log: '*', error: '*', request: '*'},
+        { ops: '*', response: '*', log: '*', error: '*', request: '*' },
         {
           logger: logger,
           levels: {
             ops: 'debug'
           },
           formatters: {
-            response: function (data) {
-              return 'Response for' + data.path;
+            response: (data) => {
+              return 'Response for ' + data.path;
             }
           }
         }
@@ -53,13 +54,23 @@ const options = {
   }
 };
 
-server.register({
-  register: require('good'),
-  options: options
-}, (err) => {
+server.register(
+  {
+    register: require('good'),
+    options: options
+  },
+  (err) => {
     if (err) {
       throw err;
     }
+
+    server.route({
+      path: '/',
+      method: 'GET',
+      handler: (request, reply) => {
+        return reply({ 'hello': 'world' });
+      }
+    });
 
     server.start((err) => {
       if (err) {
@@ -67,8 +78,11 @@ server.register({
       }
 
       server.log('info', 'Server started at ' + server.info.uri);
+      logger.debug('tiago');
     });
-});
+  }
+);
+
 ```
 
 ## Compatibility
