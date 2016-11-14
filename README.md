@@ -85,6 +85,11 @@ server.register(
 
 ```
 
+### Example with custom msg
+```javascript
+server.log('info', { msg: 'Server started', uri: server.info.uri }; 
+```
+
 ## Compatibility
 
 `good-bunyan` complies with the `good 7.x.x` [API](https://github.com/hapijs/good/blob/master/API.md).
