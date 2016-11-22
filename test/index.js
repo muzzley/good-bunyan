@@ -102,6 +102,14 @@ internals.default = {
   pid: 64291
 };
 
+internals.log = {
+  event: 'log',
+  timestamp: 1458264810957,
+  tags: ['user', 'info'],
+  data: 'you made a server log',
+  pid: 64291
+};
+
 // Test shortcuts
 
 const lab = exports.lab = Lab.script();
@@ -379,6 +387,85 @@ describe('good-bunyan', () => {
           expect(logObject.req.data).to.be.an.object();
           expect(logObject.req.data).to.only.include({ hello: 'world' });
           expect(logObject.msg).to.be.equal('[request]');
+          done();
+        };
+      });
+    });
+
+    describe('log events', () => {
+      it('returns a formatted string for "log" events with data as string', { plan: 1 }, (done) => {
+        const fixture = logFixture();
+        const reporter = new GoodBunyan(events, {
+          logger: fixture.logger,
+          levels: {
+            ops: 'debug'
+          }
+        });
+
+        const event = Hoek.clone(internals.log);
+        const reader = new Streams.Reader();
+
+        reader.pipe(reporter);
+        reader.push(event);
+        reader.push(null);
+
+        fixture.outStream._write = function (ev) {
+          const logObject = JSON.parse(ev);
+          expect(logObject.msg).to.be.equal('[log] you made a server log');
+          done();
+        };
+      });
+
+      it('returns a formatted string for "log" events with data as object', { plan: 4 }, (done) => {
+        const fixture = logFixture();
+        const reporter = new GoodBunyan(events, {
+          logger: fixture.logger,
+          levels: {
+            ops: 'debug'
+          }
+        });
+
+        const event = Hoek.clone(internals.log);
+        event.data = { foo: 'bar', baz: { zoo: 100 } };
+        const reader = new Streams.Reader();
+
+        reader.pipe(reporter);
+        reader.push(event);
+        reader.push(null);
+
+        fixture.outStream._write = function (ev) {
+          const logObject = JSON.parse(ev);
+          expect(logObject.foo).to.be.equal('bar');
+          expect(logObject.baz).to.be.an.object();
+          expect(logObject.baz.zoo).to.be.equal(100);
+          expect(logObject.msg).to.be.equal('[log]');
+          done();
+        };
+      });
+
+      it('returns a formatted string for "log" events with data as object and a custom `msg`', { plan: 4 }, (done) => {
+        const fixture = logFixture();
+        const reporter = new GoodBunyan(events, {
+          logger: fixture.logger,
+          levels: {
+            ops: 'debug'
+          }
+        });
+
+        const event = Hoek.clone(internals.log);
+        event.data = { msg: 'hello world', foo: 'bar', baz: { zoo: 100 } };
+        const reader = new Streams.Reader();
+
+        reader.pipe(reporter);
+        reader.push(event);
+        reader.push(null);
+
+        fixture.outStream._write = function (ev) {
+          const logObject = JSON.parse(ev);
+          expect(logObject.foo).to.be.equal('bar');
+          expect(logObject.baz).to.be.an.object();
+          expect(logObject.baz.zoo).to.be.equal(100);
+          expect(logObject.msg).to.be.equal('[log] hello world');
           done();
         };
       });
