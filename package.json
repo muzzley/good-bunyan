@@ -41,7 +41,7 @@
   "devDependencies": {
     "code": "4.0.0",
     "hoek": "4.1.1",
-    "lab": "13.0.4",
+    "lab": "15.2.1",
     "semistandard": "11.0.0"
   },
   "peerDependencies": {
