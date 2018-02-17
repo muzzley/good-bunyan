@@ -32,17 +32,16 @@
   },
   "homepage": "https://github.com/muzzley/good-bunyan",
   "dependencies": {
-    "bunyan": "1.8.x",
-    "fast-safe-stringify": "2.0.2",
-    "good-squeeze": "5.0.x",
-    "hoek": "4.1.x",
-    "joi": "10.4.x"
+    "bunyan": "^1.8.12",
+    "fast-safe-stringify": "^2.0.3",
+    "good-squeeze": "^5.0.x",
+    "hoek": "^5.0.3",
+    "joi": "^13.1.2"
   },
   "devDependencies": {
-    "code": "4.0.0",
-    "hoek": "4.1.1",
-    "lab": "13.0.4",
-    "semistandard": "11.0.0"
+    "code": "^5.2.0",
+    "lab": "^15.2.2",
+    "semistandard": "^12.0.0"
   },
   "peerDependencies": {
     "good": "7.x"
