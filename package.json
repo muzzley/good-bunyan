@@ -33,7 +33,7 @@
   "homepage": "https://github.com/muzzley/good-bunyan",
   "dependencies": {
     "bunyan": "1.8.x",
-    "fast-safe-stringify": "1.1.x",
+    "fast-safe-stringify": "2.0.2",
     "good-squeeze": "5.0.x",
     "hoek": "4.1.x",
     "joi": "10.4.x"
