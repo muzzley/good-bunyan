@@ -135,7 +135,7 @@ describe('good-bunyan', () => {
         reader.push(internals.response);
         reader.push(null);
 
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
           fixture.outStream._write = function (ev) {
             const logObject = JSON.parse(ev);
             expect(logObject.res.query).to.be.equal('{"name":"adam"}');
@@ -166,7 +166,7 @@ describe('good-bunyan', () => {
         reader.push(event);
         reader.push(null);
 
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
           fixture.outStream._write = function (ev) {
             const logObject = JSON.parse(ev);
             expect(logObject.res.query).to.not.exist();
@@ -197,7 +197,7 @@ describe('good-bunyan', () => {
         reader.push(event);
         reader.push(null);
 
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
           fixture.outStream._write = function (ev) {
             const logObject = JSON.parse(ev);
             expect(logObject.res.query).to.be.equal('{"name":"adam"}');
@@ -231,7 +231,7 @@ describe('good-bunyan', () => {
         reader.push(event);
         reader.push(null);
 
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
           fixture.outStream._write = function (ev) {
             const logObject = JSON.parse(ev);
             expect(logObject.res.query).to.be.equal('{"name":"adam"}');
@@ -263,7 +263,7 @@ describe('good-bunyan', () => {
         reader.push(internals.ops);
         reader.push(null);
 
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
           fixture.outStream._write = function (ev) {
             const logObject = JSON.parse(ev);
             expect(logObject.memory).to.be.equal('29Mb');
@@ -291,7 +291,7 @@ describe('good-bunyan', () => {
         reader.push(internals.error);
         reader.push(null);
 
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
           fixture.outStream._write = function (ev) {
             const logObject = JSON.parse(ev);
             expect(logObject.err).to.exist();
@@ -319,7 +319,7 @@ describe('good-bunyan', () => {
         reader.push(internals.request);
         reader.push(null);
 
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
           fixture.outStream._write = function (ev) {
             const logObject = JSON.parse(ev);
             expect(logObject.req.data).to.be.equal('you made a request');
@@ -346,7 +346,7 @@ describe('good-bunyan', () => {
         reader.push(internals.default);
         reader.push(null);
 
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
           fixture.outStream._write = function (ev) {
             const logObject = JSON.parse(ev);
             expect(logObject.req.data).to.be.equal('you made a default');
@@ -373,7 +373,7 @@ describe('good-bunyan', () => {
         reader.push(event);
         reader.push(null);
 
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
           fixture.outStream._write = function (ev) {
             const logObject = JSON.parse(ev);
             expect(logObject.req.data).to.be.undefined();
@@ -400,7 +400,7 @@ describe('good-bunyan', () => {
         reader.push(event);
         reader.push(null);
 
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
           fixture.outStream._write = function (ev) {
             const logObject = JSON.parse(ev);
             expect(logObject.req.data).to.be.an.object();
@@ -429,7 +429,7 @@ describe('good-bunyan', () => {
         reader.push(event);
         reader.push(null);
 
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
           fixture.outStream._write = function (ev) {
             const logObject = JSON.parse(ev);
             expect(logObject.msg).to.be.equal('[log] you made a server log');
@@ -455,7 +455,7 @@ describe('good-bunyan', () => {
         reader.push(event);
         reader.push(null);
 
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
           fixture.outStream._write = function (ev) {
             const logObject = JSON.parse(ev);
             expect(logObject.foo).to.be.equal('bar');
@@ -484,7 +484,7 @@ describe('good-bunyan', () => {
         reader.push(event);
         reader.push(null);
 
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
           fixture.outStream._write = function (ev) {
             const logObject = JSON.parse(ev);
             expect(logObject.foo).to.be.equal('bar');

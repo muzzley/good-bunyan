@@ -7,8 +7,8 @@
     "node": ">=4.0.0"
   },
   "scripts": {
-    "test": "lab -t 80 -va code",
-    "test-lint": "lab -t 80 -vLa code && semistandard",
+    "test": "lab",
+    "test-lint": "lab -L && semistandard",
     "lint": "semistandard"
   },
   "repository": {
