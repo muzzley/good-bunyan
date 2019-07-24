@@ -1,6 +1,6 @@
 {
   "name": "good-bunyan",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Bunyan reporting for Good process monitor",
   "main": "lib/index.js",
   "engines": {
