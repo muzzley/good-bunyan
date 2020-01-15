@@ -2,7 +2,7 @@
 
 const Lab = require('lab');
 const Code = require('code');
-const Hoek = require('hoek');
+const Hoek = require('@hapi/hoek');
 const logFixture = require('./fixture/logger');
 
 const Streams = require('./fixture/streams');

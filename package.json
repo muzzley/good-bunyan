@@ -1,6 +1,6 @@
 {
   "name": "good-bunyan",
-  "version": "3.0.1",
+  "version": "3.1.0",
   "description": "Bunyan reporting for Good process monitor",
   "main": "lib/index.js",
   "engines": {
@@ -32,11 +32,11 @@
   },
   "homepage": "https://github.com/muzzley/good-bunyan",
   "dependencies": {
+    "@hapi/good-squeeze": "5.2.1",
+    "@hapi/hoek": "8.2.1",
+    "@hapi/joi": "15.1.1",
     "bunyan": "^1.8.12",
-    "fast-safe-stringify": "^2.0.3",
-    "good-squeeze": "^5.0.x",
-    "hoek": "^5.0.3",
-    "joi": "^13.1.2"
+    "fast-safe-stringify": "^2.0.3"
   },
   "devDependencies": {
     "code": "^5.2.0",
